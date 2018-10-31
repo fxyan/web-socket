@@ -10,7 +10,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # s = ssl.wrap_socket(socket.socket)
 
 # 主机和端口
-host = 'daily.zhihu.com'
+host = 'g.cn'
 port = 80
 
 # 连接主机
