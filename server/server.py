@@ -12,19 +12,26 @@ class Request(object):
         self.query = {}
         self.body = ''
         self.header = {}
+        self.cookie = ''
 
     def form(self):
         f = {}
         args = self.body.split('&')
         for arg in args:
             k, v = arg.split('=')
+            # 这个是socket编程的编码转换
+            # 网页默认会将&这类的敏感符号转义
+            # urllib.parse.unquote函数可以将字符串转义成原始字符串
             k = urllib.parse.unquote(k)
             v = urllib.parse.unquote(v)
             f[k] = v
         return f
 
+    def get_cookie(self):
+        self.cookie = self.body.split('=')[1]
 
-request = Request
+
+request = Request()
 
 
 def get_for_path(path):

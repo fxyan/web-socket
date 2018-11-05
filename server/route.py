@@ -1,6 +1,5 @@
 from utils import log
-
-user = {}
+user = []
 
 
 def route_static(request):
@@ -13,8 +12,39 @@ def route_static(request):
         return response
 
 
-def login(request):
-    pass
+def route_login(request):
+    header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
+    body = template('login.html')
+    if request.method == 'POST':
+        f = request.form()
+        if f in user:
+            result = '登陆成功！<br> {}'.format(f)
+            log('debug1', result)
+        else:
+            result = '登录失败'
+    else:
+        result = ''
+    body = body.replace('{{result}}', result)
+    response = header + body
+    return response.encode(encoding='utf-8')
+
+
+# 这里有个bug空格被默认成了 +
+def route_register(request):
+    header = 'HTTP/1.1 200 OK\r\nContent-Type\r\n\r\n'
+    body = template('register.html')
+    if request.method == 'POST':
+        f = request.form()
+        if len(f.get('username')) < 2 or len(f.get('password')) < 2:
+            result = '用户或者密码的长度小于2'
+        else:
+            user.append(f)
+            result = '注册成功！！<br> {}'.format(user)
+    else:
+        result = ''
+    body = body.replace('{{result}}', result)
+    response = header + body
+    return response.encode(encoding='utf-8')
 
 
 def template(name):
@@ -33,4 +63,6 @@ def route_index(request):
 
 route_dict = {
     '/': route_index,
+    '/login': route_login,
+    '/register': route_register,
 }
