@@ -21,7 +21,7 @@ ip, port = s.getsockname()
 print('本机的IP{} 和端口{}'.format(ip, port))
 
 # 构造HTTP请求
-http_request = 'GET / HTTP/1.1\r\nhost:{}\r\n\r\n'.format(host)
+http_request = 'GET / HTTP/1.1\r\nhost:{}\r\nCookies: user=wang\r\n\r\n'.format(host)
 # 使用send函数将请求发送出去，send函数只接受bytes类型的编码，
 # 使用encode将str转换成bytes类型，编码为utf-8
 request = http_request.encode('utf-8')
